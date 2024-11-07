@@ -1,0 +1,371 @@
+\documentclass{scrreprt}
+\usepackage{listings}
+\usepackage{underscore}
+\usepackage{graphicx}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\hypersetup{
+    bookmarks=false,    % show bookmarks bar?
+    pdftitle={Software Requirement Specification},    % title
+    pdfauthor={Jean-Philippe Eisenbarth},                     % author
+    pdfsubject={TeX and LaTeX},                        % subject of the document
+    pdfkeywords={TeX, LaTeX, graphics, images}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,       % color of internal links
+    citecolor=black,       % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=purple,        % color of external links
+    linktoc=page            % only page is linked
+}
+\def\myversion{1.0 }
+\date{}
+
+\usepackage{hyperref}
+\begin{document}
+
+\begin{flushright}
+    \rule{16cm}{5pt}\vskip1cm
+    \begin{bfseries}
+        \Huge{REQUERIMIENTOS DE\\ SOFTWARE}\\
+        \vspace{1.5cm}
+        para la\\
+        \vspace{1.5cm}
+        Biblioteca Publica del Partido Comunista\\
+        \vspace{1.5cm}
+        \LARGE{Version \myversion}\\
+        \vspace{1.5cm}
+        Escrito por: Uriegas Corporation\\
+        % \vspace{1.5cm}
+        % Submitted to : Fazle Mohammed Tawsif \\Lecturer\\
+        \vspace{1.5cm}
+        \today\\
+    \end{bfseries}
+\end{flushright}
+
+\tableofcontents
+
+\chapter{Introduction}
+
+\section{Propósito}
+Este documento tiene como objetivo describir los requisitos funcionales y no funcionales del \textbf{Sistema de Reservas de Biblioteca}. Los requisitos aquí documentados se han elaborado mediante entrevistas y sesiones de validación con los bibliotecarios, con el propósito de asegurar que el sistema cubra sus necesidades operativas.
+
+\section{Alcance del sistema}
+El sistema permitirá gestionar de manera eficiente las reservas y devoluciones de libros, facilitar el seguimiento del inventario, y enviar notificaciones automáticas. La solución mejorará la experiencia tanto de los usuarios como del personal bibliotecario.
+
+\chapter{Requisitos Funcionales}
+\begin{itemize}
+    \item \textbf{RF1. Registro de Usuarios}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema permitirá que los usuarios se registren proporcionando su nombre, correo electrónico y una contraseña segura.
+        \item \textbf{Validación:} El sistema verificará que el correo no esté registrado previamente y que la contraseña cumpla con los criterios de seguridad.
+    \end{itemize}
+    \item \textbf{RF2. Inicio de Sesión}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema permitirá que los usuarios registrados inicien sesión usando su correo y contraseña.
+        \item \textbf{Regla:} Si se ingresan credenciales incorrectas tres veces, la cuenta se bloqueará temporalmente.
+    \end{itemize}
+    \item \textbf{RF3. Búsqueda de Libros}
+    \begin{itemize}
+        \item \textbf{Descripción:} Los usuarios podrán buscar libros por título, autor o categoría.
+        \item \textbf{Regla:} Si no se encuentran libros que coincidan con los criterios, se mostrará un mensaje informativo.
+    \end{itemize}
+    \item \textbf{RF4. Reserva de Libros}
+    \begin{itemize}
+        \item \textbf{Descripción:} Los usuarios registrados podrán reservar libros disponibles y seleccionar una fecha para su recogida.
+        \item \textbf{Reglas:}
+        \begin{itemize}
+            \item Si el libro ya está reservado, no se permitirá otra reserva hasta que se devuelva.
+            \item El sistema establecerá un \textit{tiempo límite de 5 días} para recoger la reserva, después del cual el libro quedará disponible nuevamente.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{RF5. Gestión de Devoluciones}
+    \begin{itemize}
+        \item \textbf{Descripción:} El bibliotecario podrá registrar la devolución de libros mediante escaneo del código de barras o introducción manual.
+        \item \textbf{Regla:} El sistema actualizará la disponibilidad del libro automáticamente.
+    \end{itemize}
+    \item \textbf{RF6. Envío de Notificaciones}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema enviará notificaciones automáticas cuando:
+        \begin{itemize}
+            \item Un libro reservado esté listo para ser recogido.
+            \item La reserva esté próxima a vencer.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{RF7. Historial de Reservas}
+    \begin{itemize}
+        \item \textbf{Descripción:} Los usuarios podrán consultar su historial de reservas y ver el estado (pendiente, recogido, devuelto).
+        \item \textbf{Regla:} Se permitirá filtrar las reservas por estado y fecha.
+    \end{itemize}
+    \item \textbf{RF8. Administración del Inventario}
+    \begin{itemize}
+        \item \textbf{Descripción:} Los bibliotecarios podrán añadir, modificar o eliminar libros del catálogo.
+        \item \textbf{Regla:} Si los datos introducidos son incompletos, el sistema mostrará un mensaje de error.
+    \end{itemize}
+\end{itemize}
+
+\chapter{Requisitos No Funcionales}
+\begin{itemize}
+    \item \textbf{RNF1. Seguridad - Autenticación Segura}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema HTTPS y cifrado de contraseñas para proteger las credenciales de los usuarios.
+        \item \textbf{Regla:} Si se intenta acceder desde una conexión no segura, se bloqueará la operación.
+    \end{itemize}
+    \item \textbf{RNF2. Usabilidad - Interfaz Intuitiva}
+    \begin{itemize}
+        \item \textbf{Descripción:} El proceso de búsqueda y reserva de libros debe completarse en \textit{menos de tres pasos}.
+        \item \textbf{Regla:} El diseño debe ser intuitivo y accesible desde dispositivos móviles y navegadores.
+    \end{itemize}
+    \item \textbf{RNF3. Compatibilidad - Navegadores y Dispositivos}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema debe ser compatible con \textit{Chrome, Firefox, Safari} y funcionar correctamente en dispositivos móviles.
+    \end{itemize}
+    \item \textbf{RNF4. Escalabilidad - Manejo de Usuarios Simultáneos}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema debe soportar hasta \textit{10,000} usuarios simultáneos sin afectación del rendimiento.
+    \end{itemize}
+    \item \textbf{RNF5. Rendimiento - Respuesta Rápida}
+    \begin{itemize}
+        \item \textbf{Descripción:} Las consultas de búsqueda deben devolver resultados en \textit{menos de 2 segundos}.
+    \end{itemize}
+    \item \textbf{RNF6. Alta Disponibilidad}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema debe estar disponible el \textit{99.9\% del tiempo, con un máximo de 1 hora de inactividad} mensual.
+    \end{itemize}
+    \item \textbf{RNF7. Cumplimiento Legal - Protección de Datos}
+    \begin{itemize}
+        \item \textbf{Descripción:} El sistema debe cumplir con normativas de protección de datos personales, permitiendo que los usuarios soliciten la eliminación de su información en cualquier momento.
+    \end{itemize}
+\end{itemize}
+
+\chapter{Casos de Uso}
+\section{Casos de uso funcionales}
+
+\subsection{Caso de uso 1: Registro de usuarios}
+\textbf{Actor}: Usuario no registrado \\
+\textbf{Precondición}: El usuario no debe tener una cuenta registrada en el sistema \\
+\textbf{Descripción}: Permitir que un usuario se registre en el sistema proporcionando su nombre, correo electrónico y una contraseña segura.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario accede al formulario de registro.
+    \item El usuario introduce su nombre, correo electrónico y contraseña.
+    \item El sistema valida que el correo no esté registrado previamente.
+    \item El sistema valida la complejidad de la contraseña.
+    \item El sistema almacena los datos y envía un correo de verificación.
+    \item El usuario recibe el correo y confirma su cuenta haciendo clic en el enlace de activación.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 3a. El correo ya está registrado: El sistema muestra un mensaje de error.
+    \item 4a. La contraseña no cumple con los criterios: El sistema solicita una contraseña más segura.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario se registra con éxito y puede iniciar sesión después de verificar su cuenta por correo.
+
+\subsection{Caso de uso 2: Iniciar sesión}
+\textbf{Actor}: Usuario registrado \\
+\textbf{Precondición}: El usuario debe haberse registrado previamente y haber confirmado su cuenta. \\
+\textbf{Descripción}: Permitir que un usuario registrado inicie sesión en el sistema usando su correo electrónico y contraseña.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario accede a la página de inicio de sesión.
+    \item Introduce su correo electrónico y contraseña.
+    \item El sistema valida las credenciales.
+    \item El sistema otorga acceso a la cuenta del usuario.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 3a. Credenciales incorrectas: El sistema muestra un mensaje de error.
+    \item 3b. El usuario intenta iniciar sesión múltiples veces con credenciales incorrectas: El sistema bloquea temporalmente la cuenta.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario inicia sesión exitosamente y accede a su cuenta.
+
+\subsection{Caso de uso 3: Búsqueda de libros}
+\textbf{Actor}: Usuario registrado \\
+\textbf{Precondición}: El catálogo de libros debe estar disponible en el sistema. \\
+\textbf{Descripción}: Permitir que los usuarios busquen libros por título, autor o categoría en el catálogo de la biblioteca.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario accede al catálogo de libros.
+    \item El usuario introduce el criterio de búsqueda (título, autor, categoría).
+    \item El sistema muestra una lista de libros que coinciden con el criterio de búsqueda.
+    \item El usuario selecciona un libro para ver más detalles.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 3a. No se encuentran libros que coincidan con el criterio: El sistema muestra un mensaje indicando que no hay resultados.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario visualiza los resultados de la búsqueda y puede acceder a la información del libro.
+
+\subsection{Caso de uso 4: Reserva de libros}
+\textbf{Actor}: Usuario registrado \\
+\textbf{Precondición}: El usuario debe haber iniciado sesión en el sistema. El libro debe estar disponible para reserva. \\
+\textbf{Descripción}: Permitir que los usuarios reserven libros disponibles para recogerlos en la biblioteca en una fecha determinada.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario busca un libro y lo selecciona.
+    \item El sistema muestra si el libro está disponible para reservar.
+    \item El usuario selecciona la opción de "Reserva".
+    \item El sistema solicita al usuario elegir una fecha de recogida.
+    \item El sistema confirma la reserva del libro y muestra la fecha de recogida.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 2a. El libro no está disponible: El sistema muestra un mensaje indicando que el libro no está disponible para reservar.
+    \item 5a. El usuario no selecciona una fecha de recogida: El sistema no permite proceder con la reserva.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario ha reservado el libro exitosamente y puede recogerlo en la fecha seleccionada.
+
+\subsection{Caso de uso 5: Notificaciones}
+\textbf{Actor}: Sistema, Usuario registrado \\
+\textbf{Precondición}: El usuario debe haber realizado una reserva o estar en una lista de espera. \\
+\textbf{Descripción}: El sistema debe enviar notificaciones automáticas por correo electrónico cuando una reserva esté lista para recogerse o cuando un libro reservado esté disponible.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario reserva un libro.
+    \item El sistema monitorea el estado de la reserva.
+    \item Cuando el libro está disponible para recogida, el sistema envía una notificación por correo electrónico al usuario.
+    \item El usuario recibe el correo y procede a la biblioteca a recoger el libro.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 4a. El correo no se entrega correctamente: El usuario no recibe la notificación, pero puede consultar el estado de su reserva en el sistema.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario recibe una notificación por correo electrónico cuando su reserva está lista.
+
+\subsection{Caso de uso 6: Historial de reservas}
+\textbf{Actor}: Usuario registrado \\
+\textbf{Precondición}: El usuario debe haber iniciado sesión en el sistema y tener un historial de reservas. \\
+\textbf{Descripción}: Permitir que los usuarios consulten su historial de reservas, incluyendo el estado de cada una (pendiente, recogido, devuelto).
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario accede a su cuenta.
+    \item El usuario selecciona la opción "historial de reservas".
+    \item El sistema muestra una lista de todas las reservas realizadas por el usuario, junto con su estado.
+    \item El usuario puede filtrar las reservas por estado o fecha.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 3a. El usuario no tiene reservas en su historial: El sistema muestra un mensaje indicando que no hay reservas.
+\end{itemize}
+
+\textbf{Postcondición}: El usuario consulta el historial de reservas.
+
+\subsection{Caso de uso 7: Administración de inventarios}
+\textbf{Actor}: Bibliotecario \\
+\textbf{Precondición}: El bibliotecario debe haber iniciado sesión en el sistema con permisos de administración. \\
+\textbf{Descripción}: Permitir a los bibliotecarios añadir, eliminar o modificar los registros de libros disponibles en el catálogo de la biblioteca.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El bibliotecario accede a la sección de administración de inventarios.
+    \item El bibliotecario selecciona la opción de "añadir", "eliminar" o "modificar" un libro.
+    \item El sistema solicita los detalles del libro.
+    \item El bibliotecario introduce o actualiza la información requerida.
+    \item El sistema confirma la acción y actualiza el catálogo de libros.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 3a. El bibliotecario introduce datos incorrectos o incompletos: El sistema muestra un mensaje de error y no permite continuar.
+\end{itemize}
+
+\textbf{Postcondición}: El bibliotecario gestiona el catálogo de libros de la biblioteca.
+
+\subsection{Caso de uso 8: Devoluciones de los libros}
+\textbf{Actor}: Usuario registrado, bibliotecario \\
+\textbf{Precondición}: El usuario debe haber tomado prestado un libro y estar en proceso de devolución. \\
+\textbf{Descripción}: Registrar la devolución de libros por parte de los usuarios y actualizar la disponibilidad de los libros en el catálogo.
+
+\subsubsection{Flujo principal}
+\begin{enumerate}
+    \item El usuario acude a la biblioteca para devolver un libro.
+    \item El bibliotecario escanea el código de barras del libro.
+    \item El sistema actualiza el estado del libro a "disponible" en el catálogo.
+    \item El sistema notifica al usuario que la devolución ha sido exitosa.
+\end{enumerate}
+
+\subsubsection{Excepciones}
+\begin{itemize}
+    \item 2a. El sistema no puede leer el código de barras: El bibliotecario ingresa manualmente la información.
+\end{itemize}
+
+\textbf{Postcondición}: El libro se devuelve correctamente y se actualiza la disponibilidad en el catálogo.
+
+\section{Casos de uso no funcionales}
+
+\subsection{Caso de uso no funcional 1: Seguridad}
+\textbf{Descripción}: Asegurar que el sistema cuente con medidas de seguridad, como encriptación de contraseñas y autenticación de dos factores.
+
+\subsection{Caso de uso no funcional 2: Rendimiento}
+\textbf{Descripción}: Garantizar que el sistema pueda manejar una carga alta de usuarios sin deterioro en el rendimiento.
+
+\subsection{Caso de uso no funcional 3: Disponibilidad}
+\textbf{Descripción}: El sistema debe estar disponible para los usuarios las 24 horas del día, los 7 días de la semana.
+
+\subsection{Caso de uso no funcional 4: Usabilidad}
+\textbf{Descripción}: Asegurar que la interfaz del sistema sea fácil de usar, intuitiva y accesible para todos los usuarios.
+
+\subsection{Caso de uso no funcional 5: Compatibilidad}
+\textbf{Descripción}: El sistema debe ser compatible con diferentes dispositivos y navegadores web.
+
+
+
+\chapter{Riesgos Identificados}
+\begin{itemize}
+    \item \textbf{R1:} El usuario no recoge el libro reservado a tiempo.
+    \begin{itemize}
+        \item \textbf{Mitigación:} Se establecerá un tiempo límite para las reservas.
+    \end{itemize}
+    \item \textbf{R2:} El sistema no lee correctamente el código de barras.
+    \begin{itemize}
+        \item \textbf{Mitigación:} Se habilitará la opción de registro manual de devoluciones.
+    \end{itemize}
+    \item \textbf{R3:} Sobrecarga del servidor en horas pico.
+    \begin{itemize}
+        \item \textbf{Mitigación:} Se implementarán servidores de respaldo para distribuir la carga.
+    \end{itemize}
+\end{itemize}
+
+\chapter{Aprobación del Documento}
+Este documento ha sido revisado y validado con los bibliotecarios. Con la aprobación de está versión, se procederá al desarrollo del sistema de reservas.
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Nombre} & \textbf{Rol} & \textbf{Firma} & \textbf{Fecha} \\ \hline
+    Bibliotecario 1 & Responsable de reservas & & \\ \hline
+    Bibliotecario 2 & Encargado de Inventario & & \\ \hline
+    Analista de Sistemas & Encargado del Proyecto & & \\ \hline
+\end{tabular}
+    
+
+\chapter{Conclusión}
+Este documento refleja los requisitos funcionales y no funcionales para el sistema de reservas de biblioteca. La implementación de este sistema permitirá optimizar la gestión de reservas, devoluciones e inventario, mejorando la experiencia del usuario y del personal de la biblioteca.
+
+\chapter{Anexos}
+\section{Prototipo de la interfaz} 
+% anexar el prototipo de la interfaz aqui
+
+\section{Diagrama de Casos de Uso} 
+% anexar el diagrama de casos de uso aqui
+
+\section{Manual preliminar del Usuario} 
+% anexar el manual del usuario aqui
+
+\end{document}
